@@ -1,0 +1,143 @@
+[
+    {
+        "id": "1b72646bbf67008f",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c321c3bc6c934b11",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3670747bebe4a885",
+        "type": "inject",
+        "z": "1b72646bbf67008f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 140,
+        "wires": [
+            [
+                "4b8b94933b7021ce"
+            ]
+        ]
+    },
+    {
+        "id": "32a6af0ae24f4da9",
+        "type": "debug",
+        "z": "1b72646bbf67008f",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 590,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "4b8b94933b7021ce",
+        "type": "function",
+        "z": "1b72646bbf67008f",
+        "name": "",
+        "func": "msg.payload = new Date(msg.payload).toISOString();\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "32a6af0ae24f4da9"
+            ]
+        ]
+    },
+    {
+        "id": "2477cf5feff6c7d0",
+        "type": "inject",
+        "z": "c321c3bc6c934b11",
+        "name": "V1",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "Hello World",
+        "payloadType": "str",
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "21666cf620f4f565"
+            ]
+        ]
+    },
+    {
+        "id": "5672c856a1ebe6d4",
+        "type": "debug",
+        "z": "c321c3bc6c934b11",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "21666cf620f4f565",
+        "type": "function",
+        "z": "c321c3bc6c934b11",
+        "name": "",
+        "func": "msg.payload = string(V1);\nvar newMsg = { payload: msg.payload.length };\nreturn [msg, newMsg];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 260,
+        "wires": [
+            [
+                "5672c856a1ebe6d4"
+            ]
+        ]
+    }
+]

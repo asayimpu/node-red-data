@@ -1,0 +1,12 @@
+{
+    "name": "node-red-data",
+    "description": "Node-Red and skaffold integration demo",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}
