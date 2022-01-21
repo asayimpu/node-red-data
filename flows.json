@@ -1,13 +1,5 @@
 [
     {
-        "id": "1b72646bbf67008f",
-        "type": "tab",
-        "label": "Flow 1",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "c321c3bc6c934b11",
         "type": "tab",
         "label": "Flow 1",
@@ -16,39 +8,173 @@
         "env": []
     },
     {
-        "id": "3670747bebe4a885",
-        "type": "inject",
-        "z": "1b72646bbf67008f",
+        "id": "93b1b6d12a702e79",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "66510e5ad24ace14",
+        "type": "http in",
+        "z": "c321c3bc6c934b11",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
+        "url": "/mysite",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
         "y": 140,
         "wires": [
             [
-                "4b8b94933b7021ce"
+                "a62a44c66656c21f"
             ]
         ]
     },
     {
-        "id": "32a6af0ae24f4da9",
-        "type": "debug",
-        "z": "1b72646bbf67008f",
+        "id": "a62a44c66656c21f",
+        "type": "function",
+        "z": "c321c3bc6c934b11",
+        "name": "msg.url = \"mysitepost\";",
+        "func": "msg.url = \"mysitepost\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 80,
+        "wires": [
+            [
+                "271348d4d374b182"
+            ]
+        ]
+    },
+    {
+        "id": "3c44105e8cf08e10",
+        "type": "template",
+        "z": "c321c3bc6c934b11",
+        "name": "HTML",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>My first Web-App</title>\n   <link rel=\"stylesheet\" href=\"main.css\">\n</head>\n<body class=\"light-theme\">\n    <h1>Task List</h1>\n    <p id=\"msg\">Current tasks for skaffold:</p>\n    <ul>\n      <li class=\"list\">Build Docker image</li>\n      <li class=\"list\">Create Kuberenetes Deployment files</li>\n      <li>Create Skaffold Cofnig File</li>\n    </ul>\n    <div>\n        <button class=\"btn\">Dark</button>\n    </div>\n    <script src=\"app.js\"></script>\n    <noscript>You need to enable JavaScript to view the full site.</noscript>\n</body>\n</html>",
+        "x": 590,
+        "y": 220,
+        "wires": [
+            [
+                "d5d47a144e6a8987"
+            ]
+        ]
+    },
+    {
+        "id": "271348d4d374b182",
+        "type": "template",
+        "z": "c321c3bc6c934b11",
+        "name": "JavaScript",
+        "field": "payload.script",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "plain",
+        "template": "'use strict'\n\nconst switcher = document.querySelector('.btn');\n\nswitcher.addEventListener('click', function() {\n    document.body.classList.toggle('dark-theme')\n\n    var className = document.body.className;\n    if(className == \"light-theme\") {\n        this.textContent = \"Dark\";\n    }\n    else {\n        this.textContent = \"Light\";\n    }\n\n});",
+        "x": 270,
+        "y": 240,
+        "wires": [
+            [
+                "6cbced4c1b9c88cc"
+            ]
+        ]
+    },
+    {
+        "id": "6cbced4c1b9c88cc",
+        "type": "template",
+        "z": "c321c3bc6c934b11",
+        "name": "CSS",
+        "field": "payload.style",
+        "fieldType": "msg",
+        "format": "css",
+        "syntax": "mustache",
+        "template": ":root \n    {\n        --seagreen: #45d3bb;\n        --white: #ffffff;\n        --pink: #941578;\n    }\n  * {\n    color: var(--fontColor);\n    font-family: helvetica;\n  }\n  body {\n      background: var(--bg);\n  }\n\n  .light-theme {\n    --bg: var(--seagreen);\n    --fontColor: var(--pink);\n    --btnBg: var(--pink);\n    --btnFontColor: var(--white);\n  }\n  .dark-theme {\n    --bg: var(--pink);\n    --fontColor: var(--seagreen);\n    --btnBg: var(--white);\n    --btnFontColor: var(--pink);\n  }\n\n  .btn {\n    position: absolute;\n    top: 20px;\n    left: 250px;\n    height: 50px;\n    width: 50px;\n    border-radius: 50%;\n    border: none;\n    color: var(--btnFontColor);\n    background-color: var(--btnBg);\n  }\n",
+        "x": 450,
+        "y": 240,
+        "wires": [
+            [
+                "3c44105e8cf08e10"
+            ]
+        ]
+    },
+    {
+        "id": "d5d47a144e6a8987",
+        "type": "http response",
+        "z": "c321c3bc6c934b11",
         "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 750,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "1e0841f1.ac68fe",
+        "type": "http in",
+        "z": "93b1b6d12a702e79",
+        "name": "",
+        "url": "/mysite",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 240,
+        "wires": [
+            [
+                "4c783328.03dc2c"
+            ]
+        ]
+    },
+    {
+        "id": "5de0bbd4.6c8574",
+        "type": "http in",
+        "z": "93b1b6d12a702e79",
+        "name": "",
+        "url": "/mysitepost",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 440,
+        "wires": [
+            [
+                "80321000.f2dc5",
+                "75913f37.78e6e"
+            ]
+        ]
+    },
+    {
+        "id": "4c783328.03dc2c",
+        "type": "function",
+        "z": "93b1b6d12a702e79",
+        "name": "msg.url = \"mysitepost\";",
+        "func": "msg.url = \"mysitepost\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 240,
+        "wires": [
+            [
+                "b2f5bdf9.e09f1"
+            ]
+        ]
+    },
+    {
+        "id": "80321000.f2dc5",
+        "type": "debug",
+        "z": "93b1b6d12a702e79",
+        "name": "mysitepost",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -57,87 +183,161 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 590,
-        "y": 260,
+        "x": 810,
+        "y": 440,
         "wires": []
     },
     {
-        "id": "4b8b94933b7021ce",
-        "type": "function",
-        "z": "1b72646bbf67008f",
+        "id": "8de9647.b8a9a98",
+        "type": "http response",
+        "z": "93b1b6d12a702e79",
         "name": "",
-        "func": "msg.payload = new Date(msg.payload).toISOString();\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
-        "y": 200,
+        "statusCode": "",
+        "headers": {},
+        "x": 830,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "b2972258.ecf54",
+        "type": "template",
+        "z": "93b1b6d12a702e79",
+        "name": "CSS",
+        "field": "payload.style",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "input[type=text], select {\n    width: 100%;\n    padding: 12px 20px;\n    margin: 8px 0;\n    display: inline-block;\n    border: 1px solid #ccc;\n    border-radius: 4px;\n    box-sizing: border-box;\n}\n\ninput[type=submit] {\n    width: 100%;\n    background-color: #4CAF50;\n    color: white;\n    padding: 14px 20px;\n    margin: 8px 0;\n    border: none;\n    border-radius: 4px;\n    cursor: pointer;\n}\n\ninput[type=submit]:hover {\n    background-color: #45a049;\n}\n\ndiv {\n    border-radius: 5px;\n    background-color: #f2f2f2;\n    padding: 20px;\n}",
+        "x": 550,
+        "y": 340,
         "wires": [
             [
-                "32a6af0ae24f4da9"
+                "f3b55ea2.f4d51"
             ]
         ]
     },
     {
-        "id": "2477cf5feff6c7d0",
-        "type": "inject",
-        "z": "c321c3bc6c934b11",
-        "name": "V1",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "Hello World",
-        "payloadType": "str",
-        "x": 90,
-        "y": 120,
+        "id": "b2f5bdf9.e09f1",
+        "type": "template",
+        "z": "93b1b6d12a702e79",
+        "name": "JavaScript",
+        "field": "payload.script",
+        "fieldType": "msg",
+        "format": "javascript",
+        "syntax": "plain",
+        "template": "$(document).ready(function(e) {\n    \n    $(\"form[ajax=true]\").submit(function(e) {\n        \n        e.preventDefault();\n        \n        var form_data = $(this).serialize();\n        var form_url = $(this).attr(\"action\");\n        var form_method = $(this).attr(\"method\").toUpperCase();\n        \n        $(\"#loadingimg\").show();\n        \n        $.ajax({\n            url: form_url, \n            type: form_method,      \n            data: form_data,     \n            cache: false,\n            success: function(returnhtml){                          \n                $(\"#result\").html(returnhtml); \n                $(\"#loadingimg\").hide();                    \n            }           \n        });    \n        \n    });\n    \n});",
+        "x": 390,
+        "y": 340,
         "wires": [
             [
-                "21666cf620f4f565"
+                "b2972258.ecf54"
             ]
         ]
     },
     {
-        "id": "5672c856a1ebe6d4",
-        "type": "debug",
-        "z": "c321c3bc6c934b11",
+        "id": "d2c0bc2a.05a02",
+        "type": "http response",
+        "z": "93b1b6d12a702e79",
         "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 560,
+        "x": 830,
         "y": 340,
         "wires": []
     },
     {
-        "id": "21666cf620f4f565",
-        "type": "function",
-        "z": "c321c3bc6c934b11",
-        "name": "",
-        "func": "msg.payload = string(V1);\nvar newMsg = { payload: msg.payload.length };\nreturn [msg, newMsg];",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 330,
-        "y": 260,
+        "id": "f3b55ea2.f4d51",
+        "type": "template",
+        "z": "93b1b6d12a702e79",
+        "name": "HTML",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<html>\n  <head>\n    <title>My Site</title>\n    <meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\">\n    <meta charset=\"utf-8\">\n    <script src=\"http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js\"></script>\n    <style>{{{payload.style}}}</style>\n  </head>\n  \n\n    <h2>Using CSS to style an HTML form with AJAX POST and Node-RED</h2>\n    <h4><a href=\"http://www.internetoflego.com\">Internet of LEGO</a></h4>\n\n<div>\n  <form method=\"post\" action=\"/{{url}}\" ajax=\"true\">\n    <label for=\"fname\">First Name</label>\n    <input type=\"text\" id=\"fname\" name=\"firstname\">\n\n    <label for=\"lname\">Last Name</label>\n    <input type=\"text\" id=\"lname\" name=\"lastname\">\n\n    <label for=\"country\">Country</label>\n    <select id=\"country\" name=\"country\">\n      <option value=\"uk\">United Kingdom</option>\n      <option value=\"canada\">Canada</option>\n      <option value=\"usa\">USA</option>\n    </select>\n  \n    <input type=\"submit\" value=\"Submit\">\n  </form>\n</div>\n<div>\n    <span id=\"result\"></span>\n</div>\n\n</body>\n</html>\n<script>{{{payload.script}}}</script>",
+        "x": 690,
+        "y": 340,
         "wires": [
             [
-                "5672c856a1ebe6d4"
+                "d2c0bc2a.05a02"
             ]
         ]
+    },
+    {
+        "id": "57316751.8bd948",
+        "type": "comment",
+        "z": "93b1b6d12a702e79",
+        "name": "Login Form",
+        "info": "# ### ## # ",
+        "x": 350,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ad88b28c.bc842",
+        "type": "function",
+        "z": "93b1b6d12a702e79",
+        "name": "return msg.payload to client",
+        "func": "msg.payload = 'The following data was submitted and available in the msg.payload: '+msg.payload;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 400,
+        "wires": [
+            [
+                "8de9647.b8a9a98"
+            ]
+        ]
+    },
+    {
+        "id": "42a9d329.9cdf6c",
+        "type": "comment",
+        "z": "93b1b6d12a702e79",
+        "name": "Inject msg object properties",
+        "info": "",
+        "x": 360,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "75913f37.78e6e",
+        "type": "json",
+        "z": "93b1b6d12a702e79",
+        "name": "",
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "ad88b28c.bc842"
+            ]
+        ]
+    },
+    {
+        "id": "86c08a83.385758",
+        "type": "comment",
+        "z": "93b1b6d12a702e79",
+        "name": "Website",
+        "info": "",
+        "x": 130,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "111485fa.14c4aa",
+        "type": "comment",
+        "z": "93b1b6d12a702e79",
+        "name": "Form Submission",
+        "info": "",
+        "x": 160,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "3c029955.901626",
+        "type": "comment",
+        "z": "93b1b6d12a702e79",
+        "name": "Node-RED Public Site - README",
+        "info": "This Flow demonstrates how to create\na simple frontend webpage with Node-RED.\n\nThe public facing page consists of the \nclient side JavaScript, CSS and HTML. \n\nThe important technique is how the mustache \ntemplates are used. Each template will set the\n\"property\" relative to the content. \n\nThe CSS node sets the \"msg.payload.style\" property.\nThe JavaScript node sets the \"msg.payload.script\" property.\nThe HTML node then includes these properties \n<script>{{{payload.script}}}</script>\n<style>{{{payload.style}}}</style>\n\n\nThis example was created by http://www.InternetofLEGO.com\n\n",
+        "x": 460,
+        "y": 60,
+        "wires": []
     }
 ]
